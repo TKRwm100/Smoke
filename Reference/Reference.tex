@@ -1,0 +1,189 @@
+\documentclass[paper={550pt,1200pt},lualatex , ja=standard]{bxjsreport}
+\usepackage{luatexja-otf}
+\usepackage[deluxe]{luatexja-preset}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{bxpapersize}
+\usepackage{layout}
+\usepackage{geometry}
+\usepackage{siunitx}
+
+\setlength{\hoffset}{-1in+50pt}
+\setlength{\voffset}{-1in+50pt}
+\setlength{\textwidth}{450pt}
+\setlength{\topmargin}{0pt}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\textheight}{1100pt}
+\tcbuselibrary{listings}
+\hypersetup{%
+luatex,
+pdfencoding=auto,
+colorlinks=true,%
+allcolors=blue
+}
+
+\definecolor{White}{rgb}{1,1,1}
+\definecolor{Orange}{rgb}{0.9,0.1,0}
+\lstset{
+  basicstyle={\ttfamily\scriptsize}, % 使用フォント
+  classoffset=1,
+  breaklines=true,
+  identifierstyle={},
+  commentstyle={},
+  keywordstyle={\bfseries},
+  ndkeywordstyle={},
+  stringstyle={\ttfamily},
+  columns=fixed,
+  basewidth=0.5em,
+  numberstyle={\tiny},
+  stepnumber=1,
+  tabsize=4,
+  keywordstyle={\color{blue}}, %キーワード(int, ifなど)の書体指定
+  commentstyle={\color{OliveGreen}}, %注釈の書体
+  stringstyle={\color{Orange}}, %文字列
+  showstringspaces=false,  %文字列中の半角スペースを表示させない
+  keepspaces=true,
+  rulesep = 1pt,
+  xrightmargin=0zw,                     % 右マージンのサイズ．
+  xleftmargin=1.6zw,                    % 左マージンのサイズ．行番号が2桁でも行左端からはみ出ない値．
+}
+
+\makeatletter
+\def\lst@lettertrue{\let\lst@ifletter\iffalse}
+\makeatother
+
+\pagestyle{empty}
+\begin{document}
+
+\def\xmlcol{-20pt}
+\def\xmlrowVal{0pt}
+\def\xmlrowValTL{10pt}
+\def\xmlrowDef{150pt}
+\def\xmlrowExp{200pt}
+
+\definecolor{backcolor}{rgb}{0.9,0.9,0.9}
+\definecolor{framecolor}{rgb}{0.8,0.8,0.8}
+\definecolor{xsdbackcolor}{rgb}{0.9,0.9,1}
+\definecolor{xsdframecolor}{rgb}{0.7,0.7,0.9}
+\definecolor{White}{rgb}{1,1,1}
+
+\newcommand{\mktree}[3]{
+    \node[anchor=west,font=\fontsize{\xmlrowValTL}{\xmlrowValTL}\selectfont] at(\xmlrowVal+\xmlrowValTL*#2,\xmlcol*#3){#1};
+    \ifnum #2=0
+    \else
+    \draw (\xmlrowVal+\xmlrowValTL*#2-\xmlrowValTL/4,\xmlcol*#3)--(\xmlrowVal+\xmlrowValTL*#2+\xmlrowValTL/4,\xmlcol*#3);
+    \fi
+    }
+\newcommand{\drawtreeline}[3]{
+    \draw (\xmlrowVal+\xmlrowValTL*#1-\xmlrowValTL/4,\xmlcol*#2+\xmlcol/2)--(\xmlrowVal+\xmlrowValTL*#1-\xmlrowValTL/4,\xmlcol*#3);
+    }
+\def\postbreak{}
+%\def\postbreak{\mbox{\textcolor{red}{$\hookrightarrow$}\space}}
+\newtcblisting{reflisting}[2][]{
+      arc=5pt,
+      top=10pt,
+      bottom=10pt,
+      left=0pt,
+      right=0pt,
+      boxrule=1pt,
+      colback=backcolor,
+      colframe=framecolor,
+      listing only,
+      hbox,
+      #1,
+      listing options={
+        breaklines=true,
+        postbreak=\postbreak,
+        #2
+      }
+}
+\newtcblisting{refxsdlisting}[1][]{
+      arc=5pt,
+      top=10pt,
+      bottom=10pt,
+      left=15pt,
+      right=0pt,
+      boxrule=1pt,
+      colback=xsdbackcolor,
+      colframe=xsdframecolor,
+      listing only,
+      hbox,
+      #1,
+      coltitle=black,
+      listing options={
+        language=XML,
+        breaklines=true,
+        postbreak=\postbreak,
+        escapechar=!,
+      }
+}
+
+%\layout
+\chapter*{Smoke}
+
+\section*{設定ファイル解説}
+\begin{refxsdlisting}[title=XSD定義,]
+<?xml version="1.0" encoding="utf-8"?>
+<xs:element name ="Config">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="Drain">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Structure" type="Structure" minOccurs="0" maxOccurs="unbounded"/> 
+					</xs:sequence>
+					<xs:attribute name="X" type="xs:double"/>
+					<xs:attribute name="Y" type="xs:double"/>
+					<xs:attribute name="Z" type="xs:double"/>
+					<xs:attribute name="GenerateSpan" type="xs:time"/>	
+					<xs:attribute name="LifeSpan" type="xs:time"/>	
+                    <xs:attribute name="ContinueTime" type="xs:time"/>				
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Chimney">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Structure" type="Structure" minOccurs="0" maxOccurs="unbounded"/> 
+					</xs:sequence>
+					<xs:attribute name="X" type="xs:double"/>
+					<xs:attribute name="Y" type="xs:double"/>
+					<xs:attribute name="Z" type="xs:double"/>
+					<xs:attribute name="GenerateSpan" type="xs:time"/>
+					<xs:attribute name="LifeSpan" type="xs:time"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+\end{refxsdlisting}
+(要　　　素) ルート要素です. それぞれ1個の Drain要素, Chimney要素 を持ちます.
+\subsubsection*{Drain}
+(子　要　素) ドレンの煙描画の設定をします. 0個以上のStructure要素, X, Y, Z, GeneralSpan, LifeSpan,属性を持ちます. 詳しくは下記それぞれの項目を確認してください.
+\subsubsection*{Chimney}
+(子　要　素) ドレンの煙描画の設定をします. 0個以上のStructure要素, X, Y, Z, GeneralSpan, LifeSpan,属性を持ちます. 詳しくは下記それぞれの項目を確認してください.
+\subsubsection*{X}
+(子要素属性) ストラクチャの生成場所のX座標を記述します. 自列車原点からの相対座標である必要があります.
+\subsubsection*{Y}
+(子要素属性) ストラクチャの生成場所のY座標を記述します. 自列車原点からの相対座標である必要があります.
+\subsubsection*{Z}
+(子要素属性) ストラクチャの生成場所のZ座標を記述します. 自列車原点からの相対座標である必要があります.
+\subsubsection*{GenerateSpan}
+(子要素属性) ストラクチャの生成周期を記述します.
+\subsubsection*{LifeSpan}
+(子要素属性) ストラクチャの寿命を記述します.
+
+\subsection*{Structure}
+\begin{refxsdlisting}[title=XSD定義,]
+<xs:complexType name="Structure">
+    <xs:attribute name="Path" type="xs:anyURI"/>
+</xs:complexType>
+\end{refxsdlisting}
+(要　　　素) ストラクチャ情報を設定します. 0個の子要素を持ちます.
+\subsubsection*{Path}
+(属　　　性) 各ストラクチャのモデルのファイルを指定します.
+\end{document}

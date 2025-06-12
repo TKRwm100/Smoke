@@ -1,0 +1,12 @@
+/packages
+.vs
+bin
+obj
+*/*.user
+*/*.synctex.gz
+*/*.out
+*/*.log
+*/*.listing
+*/*.fls
+*/*.fdb_latexmk
+*/*.aux
