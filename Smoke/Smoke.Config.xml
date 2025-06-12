@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Config xmlns="BveEx.Toukaitetudou.Smoke.Config.xsd">
 	<Drain X="0" Y="0" Z="5" GenerateSpan="00:00:00.030" LifeSpan="00:00:00.100" ContinueTime="00:00:15">
-		<Structure Path="Model/SmorkB.x" />
+		<Structure Path="Model/SmokeB.x" />
 	</Drain>
 	<Chimney X="1.7" Y="5" Z="-2" GenerateSpan="00:00:00.200" LifeSpan="00:00:00.600" >
-		<Structure Path="Model/SmorkA.x"/>
+		<Structure Path="Model/SmokeA.x"/>
 	</Chimney>
 </Config>
